@@ -1,7 +1,7 @@
 import json
 from classes.RouteVar import * 
 from utils.fileProcessor import dataReader
-from utils.promptExtract import promptExtract
+
 INPUT_FILENAME = "vars.json"
 OUTPUT_FILENAME_CSV = "vars.csv"
 OUTPUT_FILENAME_JSON = "vars.json"
