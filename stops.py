@@ -2,7 +2,6 @@ import json
 
 from classes.Stop import *
 from utils.fileProcessor import *
-from utils.promptExtract import promptExtract
 
 INPUT_FILENAME = "stops.json"
 OUTPUT_FILENAME_CSV = "stops.csv"
@@ -22,9 +21,7 @@ def getListStop():
 
 if __name__ == "__main__": 
     stop = getListStop()
-    prompt = "Find stop that id is 15"
-    # key, value = promptExtract(prompt, stopKeys) # type: ignore
     data = stop.searchByAttr("StopId", 2)
-    print(data)
+
     stop.outputAsCSV(OUTPUT_FILENAME_CSV, data)
     stop.outputAsJSON(OUTPUT_FILENAME_JSON, data)
