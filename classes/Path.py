@@ -1,6 +1,6 @@
 import os
 import json
-pathKey = ["lng", "lat", "RouteId", "RouteVarId"]
+pathKeys = ["lng", "lat", "RouteId", "RouteVarId"]
 class Path: 
   def __init__(self, path):
     for key, value in path.items():
@@ -24,23 +24,25 @@ class PathQuery():
           listPath.append({"lng": paths.lng[i], "lat": paths.lat[i],"RouteId": paths.RouteId, "RouteVarId": paths.RouteVarId})
     return listPath
   
-  def outputAsCSV(self, OUTPUT_FILE_PATH, data):
-    if not data:
+  def outputAsCSV(self, OUTPUT_FILENAME, res):
+    if not res:
       return
-    OUTPUT_FILE_PATH = os.path.abspath("output/paths.csv")
-    os.makedirs(os.path.dirname(OUTPUT_FILE_PATH), exist_ok=True)
-    with open(OUTPUT_FILE_PATH, 'w', encoding="UTF-8") as f:
-      f.write(",".join(pathKey) + "\n")
-      for i in data:
+    OUTPUT_FILE_PATH = os.path.abspath("output/{}")
+    os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
+    with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:
+      f.write(",".join(pathKeys) + "\n")
+      for i in res:
         for route in i.values():
           f.write(str(route) + ",")
         f.write("\n")
         
-  def outputAsJSON(self, OUTPUT_FILE_PATH, data):
-    OUTPUT_FILE_PATH = os.path.abspath("output/paths.json")
-    os.makedirs(os.path.dirname(OUTPUT_FILE_PATH), exist_ok=True)
-    with open(OUTPUT_FILE_PATH, 'w', encoding="UTF-8") as f:
-      for i in data:
+  def outputAsJSON(self, OUTPUT_FILENAME, res):
+    if not res:
+      return
+    OUTPUT_FILE_PATH = os.path.abspath("output/{}")
+    os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
+    with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:
+      for i in res:
         i = [i]
         text = json.dumps(i, default=lambda o: o.__dict__, ensure_ascii=False)
         f.write(text + "\n")
