@@ -50,7 +50,7 @@ class GraphQuery:
       text = json.dumps(data, default=lambda o: o.__dict__, ensure_ascii=False)
       f.write(text + "\n")
   
-  def outputAllPairDistance(self, OUTPUT_FILENAME, data):
+  def outputAllPairDistance(self, OUTPUT_FILENAME, data) -> None:
     OUTPUT_FILE_PATH = os.path.abspath("output/{}")
     os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
     with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:

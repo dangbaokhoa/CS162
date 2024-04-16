@@ -4,7 +4,6 @@ from vars import getListRoute
 from paths import getListPath
 from utils.converter import *
 from math import sqrt, pow
-from shapely import LineString
 
 def almost_equal(a, b, tolerance=1e-5):
     return abs(a - b) <= tolerance
@@ -52,6 +51,12 @@ def buildGraph():
   
     if not runningTime or not totalDistance:
       continue
+    
+    # Store all stopId and coordinate of stop
+    for stop in data.Stops: 
+      allStop.append(stop["StopId"])
+      allCoor.append((stop["Lng"], stop["Lat"]))
+    
     # Get path have same RouteId and RouteVarId
     choosenPath = None
     for paths in listPath.pathGroup:
@@ -60,10 +65,6 @@ def buildGraph():
     if not choosenPath:
       continue
     
-    # Store all stopId and coordinate of stop
-    for stop in data.Stops: 
-      allStop.append(stop["StopId"])
-      allCoor.append((stop["Lng"], stop["Lat"]))
 
     # Calculate average running time between 2 stops
     runningTime = (runningTime * 60)
@@ -81,7 +82,7 @@ def buildGraph():
   
   allStop = list(set(allStop))   
   
-def allPairDistance(): 
+def allPairDistance() -> None:
   data = list()
   for i in range(len(allStop)):
     g.dijkstra(allStop[i])
@@ -97,7 +98,7 @@ def allPairDistance():
   OUTPUT_FILENAME_JSON = "all_pair_distance.json"
   GraphQuery().outputAllPairDistance(OUTPUT_FILENAME_JSON, data)
 
-def mostImportantPath():
+def mostImportantPath() -> None:
   res = list()
   sortedAllStop = sorted(allStop, key = lambda x: g.top[x], reverse=True)
 
@@ -114,7 +115,7 @@ def mostImportantPath():
   OUTPUT_FILENAME_JSON = "important_path.json"
   GraphQuery().outputAsJSON(OUTPUT_FILENAME_JSON, res)
 
-def shortestPath(u, v):
+def shortestPath(u, v) -> None:
   if u == None or v == None: return
   g.reset()
   g.dijkstra(u)
