@@ -27,7 +27,7 @@ def promptExtract(userPrompt, promptProperty):
     extractInfo = json.loads(response_message.content)
     # print(extractInfo)
     if not extractInfo:
-        return None, None
+        return None
     
     for key, value in extractInfo.items():
         if (value): return key, value
