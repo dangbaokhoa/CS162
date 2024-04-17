@@ -4,7 +4,6 @@ from vars import getListRoute
 from paths import getListPath
 from utils.converter import *
 from math import sqrt, pow
-from shapely import LineString
 
 def almost_equal(a, b, tolerance=1e-5):
     return abs(a - b) <= tolerance
@@ -36,10 +35,10 @@ def buildGraph():
   allStop = list()
   allCoor = list()
 
-  for data in listStop.stopGroup:
+  for res in listStop.stopGroup:
     # Get routeId and routeVarId of stop
-    routeId = int(data.RouteId)
-    routeVarId = int(data.RouteVarId)
+    routeId = int(res.RouteId)
+    routeVarId = int(res.RouteVarId)
     runningTime = None
     totalDistance = None
     # Get running time and total distance of route
@@ -61,7 +60,7 @@ def buildGraph():
       continue
     
     # Store all stopId and coordinate of stop
-    for stop in data.Stops: 
+    for stop in res.Stops: 
       allStop.append(stop["StopId"])
       allCoor.append((stop["Lng"], stop["Lat"]))
 
@@ -69,49 +68,49 @@ def buildGraph():
     runningTime = (runningTime * 60)
     timeBase = runningTime / totalDistance
     # Calculate average distance between 2 stops
-    for i in range(len(data.Stops) - 1):
+    for i in range(len(res.Stops) - 1):
       lngPath = list()
       latPath = list()
 
-      distance = findDistance(choosenPath, lngPath, latPath, data.Stops[i], data.Stops[i + 1]) 
+      distance = findDistance(choosenPath, lngPath, latPath, res.Stops[i], res.Stops[i + 1]) 
       timeCost = distance * timeBase
       
       # Add edge between 2 stops
-      g.addEdge(data.Stops[i]["StopId"], data.Stops[i + 1]["StopId"], (timeCost, distance, routeId, routeVarId, lngPath, latPath))
+      g.addEdge(res.Stops[i]["StopId"], res.Stops[i + 1]["StopId"], (timeCost, distance, routeId, routeVarId, lngPath, latPath))
   
   allStop = list(set(allStop))   
   
 def allPairDistance(): 
-  data = list()
+  res = list()
   for i in range(len(allStop)):
     g.dijkstra(allStop[i])
+    g.calculateImportantStop(allStop[i], allStop)
     for j in range(len(allStop)):
       if i == j:
         continue
-      data.append({
+      res.append({
         "Start": allStop[i],
         "End": allStop[j],
         "Time": abs(g.dist[allStop[j]])
       })
     g.reset()
   OUTPUT_FILENAME_JSON = "all_pair_distance.json"
-  GraphQuery().outputAllPairDistance(OUTPUT_FILENAME_JSON, data)
+  GraphQuery().outputAllPairDistance(OUTPUT_FILENAME_JSON, res)
 
 def mostImportantPath():
   res = list()
   sortedAllStop = sorted(allStop, key = lambda x: g.top[x], reverse=True)
-
   for i in range(10):
     flag = 0
-    for data in listStop.stopGroup:
+    for _stop in listStop.stopGroup:
       if flag: break
-      for stop in data.Stops:
+      for stop in _stop.Stops:
         if flag: break
         if sortedAllStop[i] == stop["StopId"]:
           flag = 1
           res.append(stop)
 
-  OUTPUT_FILENAME_JSON = "important_path.json"
+  OUTPUT_FILENAME_JSON = "top_10_important_path.json"
   GraphQuery().outputAsJSON(OUTPUT_FILENAME_JSON, res)
 
 def shortestPath(u, v):

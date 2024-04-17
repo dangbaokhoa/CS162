@@ -27,8 +27,8 @@ if __name__ == "__main__":
     if result is not None:
         field, value, function = result
         chosenFunction = eval(f"stop.{function}")
-        data = chosenFunction(field, value)
-        stop.outputAsCSV(OUTPUT_FILENAME_CSV, data)
-        stop.outputAsJSON(OUTPUT_FILENAME_JSON, data)
+        res = chosenFunction(field, value)
+        stop.outputAsCSV(OUTPUT_FILENAME_CSV, res)
+        stop.outputAsJSON(OUTPUT_FILENAME_JSON, res)
     else :
         print("No result found, please try again.")

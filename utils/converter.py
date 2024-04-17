@@ -11,28 +11,28 @@ def lnglatToXY(lng, lat):
   x, y = transformer.transform(lng, lat) 
   return (x, y)
 
-def outputAsJSON(OUTPUT_FILENAME, data):
+def outputAsJSON(OUTPUT_FILENAME, res):
 
   os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
 
   with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:
-    json.dump(data, f, default=lambda x: x.__dict__, ensure_ascii=False)
+    json.dump(res, f, default=lambda x: x.__dict__, ensure_ascii=False)
 
-def outputAsCSV(OUTPUT_FILENAME, data):
+def outputAsCSV(OUTPUT_FILENAME, res):
 
   os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
 
   with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:
-    if not data:
+    if not res:
       return
-    for i in range(len(data)):
-      if type(data[i]) != dict:
-        data[i] =  data[i].__dict__
+    for i in range(len(res)):
+      if type(res[i]) != dict:
+        res[i] =  res[i].__dict__
 
-    for key in data[0].keys():
+    for key in res[0].keys():
       f.write(key + ",")
     f.write("\n")
-    for i in data:
+    for i in res:
       for route in i.values():
         f.write(str(route) + ",")
       f.write("\n")
