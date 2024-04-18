@@ -6,8 +6,8 @@ import json
 class Graph: 
     def __init__(self):
         self.adj = defaultdict(list)
+        self.adjFloyd = [[-1] * 10000 for _ in range(10000)]
         
-        self.dist = [float('inf')] * 10000
         self.top = [0] * 10000
         self.pre = [-1] * 10000
         self.routeRef = [tuple()] * 10000
@@ -17,6 +17,10 @@ class Graph:
         self.out_dag = defaultdict(list)
         self.dp_in = [0] * 10000
         self.dp_out = [0] * 10000
+        
+        # Floyd
+        self.dist = [float('inf')] * 10000
+        self.distFloyd = [[float('inf')] * 10000 for _ in range(10000)]
         
     def reset(self) -> None:
         self.dist = [float('inf')] * 10000
@@ -49,6 +53,13 @@ class Graph:
                     self.pathRef[v] = (w[4], w[5])
                     heapq.heappush(pq, (self.dist[v], v))
                     
+    def floyd(self, allStop) -> None:
+        for startVertice in allStop:
+            for midVertice in allStop:
+                for endVertice in allStop:
+                    if (self.distFloyd[startVertice][midVertice] + self.distFloyd[midVertice][endVertice] < self.distFloyd[startVertice][endVertice]):
+                        self.distFloyd[startVertice][endVertice] = self.distFloyd[startVertice][midVertice] + self.distFloyd[midVertice][endVertice]
+                        
     def dfsIn(self, u, flag): 
         if self.dp_in[u] != 0:
             return self.dp_in[u]

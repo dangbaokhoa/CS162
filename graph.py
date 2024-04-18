@@ -77,11 +77,18 @@ def buildGraph():
       
       # Add edge between 2 stops
       g.addEdge(res.Stops[i]["StopId"], res.Stops[i + 1]["StopId"], (timeCost, distance, routeId, routeVarId, lngPath, latPath))
+      g.adjFloyd[res.Stops[i]["StopId"]][res.Stops[i + 1]["StopId"]] = timeCost
   
+  # Storing all the stops
   allStop = list(set(allStop))   
   
 def allPairDistance(): 
   res = list()
+  
+  # Floyd
+  g.floyd(allStop)
+  
+  # Dijkstra
   for i in range(len(allStop)):
     g.dijkstra(allStop[i])
     g.calculateImportantStop(allStop[i], allStop)
