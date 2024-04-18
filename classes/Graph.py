@@ -5,8 +5,9 @@ import json
 
 class Graph: 
     def __init__(self):
+        # Dijkstra
         self.adj = defaultdict(list)
-        self.adjFloyd = [[-1] * 10000 for _ in range(10000)]
+        self.dist = [float('inf')] * 10000
         
         self.top = [0] * 10000
         self.pre = [-1] * 10000
@@ -17,9 +18,8 @@ class Graph:
         self.out_dag = defaultdict(list)
         self.dp_in = [0] * 10000
         self.dp_out = [0] * 10000
-        
+
         # Floyd
-        self.dist = [float('inf')] * 10000
         self.distFloyd = [[float('inf')] * 10000 for _ in range(10000)]
         
     def reset(self) -> None:

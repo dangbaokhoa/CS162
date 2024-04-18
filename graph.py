@@ -77,7 +77,7 @@ def buildGraph():
       
       # Add edge between 2 stops
       g.addEdge(res.Stops[i]["StopId"], res.Stops[i + 1]["StopId"], (timeCost, distance, routeId, routeVarId, lngPath, latPath))
-      g.adjFloyd[res.Stops[i]["StopId"]][res.Stops[i + 1]["StopId"]] = timeCost
+      g.distFloyd[res.Stops[i]["StopId"]][res.Stops[i + 1]["StopId"]] = timeCost
   
   # Storing all the stops
   allStop = list(set(allStop))   
