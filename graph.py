@@ -87,7 +87,7 @@ def allPairDistance():
     result = list()
 
     # Floyd
-    # g.floyd(allStop)
+    g.floyd(allStop)
 
     # Dijkstra
     for i in range(len(allStop)):
