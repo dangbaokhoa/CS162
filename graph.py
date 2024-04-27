@@ -70,7 +70,8 @@ def buildGraph():
         for i in range(len(_stop.Stops) - 1):
             lngPath = list()
             latPath = list()
-
+            
+            # Find distance between 2 stops
             distance = findDistance(choosenPath, lngPath, latPath, _stop.Stops[i], _stop.Stops[i + 1]) 
             timeCost = distance * timeBase
 
@@ -158,7 +159,7 @@ if __name__ == "__main__":
 
     ### WARNING: This function will take a long time to run
     # 2. Print shortest path from all pair in graph
-    # allPairDistance()
+    allPairDistance()
 
     # 4. Print 10 most important path
     mostImportantPath()
