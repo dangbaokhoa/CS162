@@ -14,7 +14,7 @@ class Stop:
 class StopQuery():
   def __init__(self, stopGroup):
     self.stopGroup = stopGroup
-
+  
   def searchByAttr(self, field, value):
     res = []
     for stops in self.stopGroup:
@@ -22,8 +22,6 @@ class StopQuery():
         if (str(stop[field]) == value): 
           res.append({"Stop": stop, "RouteId": stops.RouteId, "RouteVarId": stops.RouteVarId})
     return res
-  def searchByRouteId(self, field, value):
-    return self.searchByAttr(field, value)
 
   def searchByStopId(self, field, value):
     return self.searchByAttr(field, value)
@@ -63,6 +61,22 @@ class StopQuery():
 
   def searchBySearch(self, field, value):
     return self.searchByAttr(field, value)
+    
+  def searchByRoutes(self, field, value):
+    return self.searchByAttr(field, value)
+  
+  def searchByAttrAdvance(self, field, value):
+    res = []
+    for stops in self.stopGroup:
+      if (str(getattr(stops, field)) == value):
+        res.append(stops.__dict__)
+    return res
+  
+  def searchByRouteId(self, field, value):
+    return self.searchByAttrAdvance(field, value)
+
+  def searchByRouteVarId(self, field, value):
+    return self.searchByAttrAdvance(field, value)
 
   def outputAsCSV(self, OUTPUT_FILENAME, res) -> None:
     if not res:

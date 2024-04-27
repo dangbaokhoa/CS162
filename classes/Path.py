@@ -29,6 +29,19 @@ class PathQuery():
     
     def searchBylat(self, field, value):
         return self.searchByAttr(field, value)
+    
+    def searchByAttrAdvance(self, field, value):
+        listPath = []
+        for paths in self.pathGroup:
+            if (str(getattr(paths, field)) == value):
+                listPath.append(paths.__dict__)
+        return listPath
+    
+    def searchByRouteId(self, field, value):
+        return self.searchByAttrAdvance(field, value)
+    
+    def searchByRouteVarId(self, field, value):
+        return self.searchByAttrAdvance(field, value)
   
     def outputAsCSV(self, OUTPUT_FILENAME, res):
         if not res:
