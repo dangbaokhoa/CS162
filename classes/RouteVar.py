@@ -14,14 +14,44 @@ class RouteVar:
 class RouteVarQuery():
     def __init__(self, routeGroup):
         self.routeGroup = routeGroup
-
+    
     def searchByAttr(self, field, value):
         res = []
         for routes in self.routeGroup:
             for route in routes.routeVar:
-                if (route[field] == value):
+                if (str(route[field]) == value):
                     res.append(route)
         return res
+
+    def searchByRouteId(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByRouteVarId(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByRouteVarName(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByRouteVarShortName(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByRouteNo(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByStartStop(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByEndStop(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByDistance(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByOutbound(self, field, value):
+        return self.searchByAttr(field, value)
+
+    def searchByRunningTime(self, field, value):
+        return self.searchByAttr(field, value)
 
     def outputAsCSV(self, OUTPUT_FILENAME, result) -> None:
         if not result:
@@ -30,7 +60,6 @@ class RouteVarQuery():
         os.makedirs(os.path.dirname(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME)), exist_ok=True)
         with open(OUTPUT_FILE_PATH.format(OUTPUT_FILENAME), 'w', encoding="UTF-8") as f:
             f.write(",".join(routeKeys) + "\n")
-            f.write("\n")
             for i in result:
                 for route in i.values():
                     f.write(str(route) + ",")

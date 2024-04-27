@@ -14,14 +14,69 @@ class Stop:
 class StopQuery():
   def __init__(self, stopGroup):
     self.stopGroup = stopGroup
-
+  
   def searchByAttr(self, field, value):
     res = []
     for stops in self.stopGroup:
       for stop in stops.Stops:
-        if (stop[field] == value): 
+        if (str(stop[field]) == value): 
           res.append({"Stop": stop, "RouteId": stops.RouteId, "RouteVarId": stops.RouteVarId})
     return res
+
+  def searchByStopId(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByCode(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByName(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByStopType(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByZone(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByWard(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByAddressNo(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByStreet(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchBySupportDisability(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByStatus(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByLng(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchByLat(self, field, value):
+    return self.searchByAttr(field, value)
+
+  def searchBySearch(self, field, value):
+    return self.searchByAttr(field, value)
+    
+  def searchByRoutes(self, field, value):
+    return self.searchByAttr(field, value)
+  
+  def searchByAttrAdvance(self, field, value):
+    res = []
+    for stops in self.stopGroup:
+      if (str(getattr(stops, field)) == value):
+        res.append(stops.__dict__)
+    return res
+  
+  def searchByRouteId(self, field, value):
+    return self.searchByAttrAdvance(field, value)
+
+  def searchByRouteVarId(self, field, value):
+    return self.searchByAttrAdvance(field, value)
 
   def outputAsCSV(self, OUTPUT_FILENAME, res) -> None:
     if not res:

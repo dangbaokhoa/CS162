@@ -1,7 +1,7 @@
 import json
-from utils.fileProcessor import dataReader
 from classes.Path import *
-
+from utils.fileProcessor import dataReader
+from utils.promptExtract import promptExtract
 INPUT_FILENAME = "paths.json"
 OUTPUT_FILENAME_CSV = "paths.csv"
 OUTPUT_FILENAME_JSON = "paths.json"
@@ -21,8 +21,13 @@ def getListPath():
 
 if __name__ == "__main__":
     path = getListPath()
-    lng = 106.652565
-    lat = 10.75125313
-    data = path.searchByLngLat(lng, lat)
-    path.outputAsCSV(OUTPUT_FILENAME_CSV, data)
-    path.outputAsJSON(OUTPUT_FILENAME_JSON, data)
+    prompt = input("Enter the prompt: ")
+    result = promptExtract(prompt, pathKeys) #, lng = 106.652565, lat = 10.75125313
+    if result is not None:
+        field, value, function = result
+        chosenFunction = eval(f"path.{function}")
+        res = chosenFunction(field, value)
+        path.outputAsCSV(OUTPUT_FILENAME_CSV, res)
+        path.outputAsJSON(OUTPUT_FILENAME_JSON, res)
+    else :
+        print("No result found, please try again.")
