@@ -26,9 +26,9 @@ if __name__ == "__main__":
     if result is not None:
         field, value, function = result
         chosenFunction = eval(f"route.{function}")
-        data = chosenFunction(field, value)
-        route.outputAsCSV(OUTPUT_FILENAME_CSV, data)
-        route.outputAsJSON(OUTPUT_FILENAME_JSON, data)
+        res = chosenFunction(field, value)
+        route.outputAsCSV(OUTPUT_FILENAME_CSV, res)
+        route.outputAsJSON(OUTPUT_FILENAME_JSON, res)
     else :
         print("No result found, please try again.")
     

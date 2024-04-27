@@ -4,11 +4,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-
 GPT_MODEL = "gpt-3.5-turbo-0613"
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
+
 def promptExtract(userPrompt, promptProperty):
     keywords = (', ').join(promptProperty)
     prompt = f"""Extract the following information if it containt similar given keywords and each keyword have, else don't included it and return it as a JSON object with key is: {keywords}.
@@ -33,7 +33,6 @@ def promptExtract(userPrompt, promptProperty):
             "description": description,
             "parameters": parameters,
         })
-    
     response = client.chat.completions.create(
         model = GPT_MODEL,
         messages = [{"role": "user", "content": prompt}],
@@ -41,7 +40,7 @@ def promptExtract(userPrompt, promptProperty):
         function_call="auto"
     )
     response_message = response.choices[0].message
-    # print(response_message)
+
     if not response_message or not response_message.function_call:
         return None
     
@@ -52,4 +51,3 @@ def promptExtract(userPrompt, promptProperty):
         for key, value in argument.items():
             return key, value, chosenFunction
     return None
-        
