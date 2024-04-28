@@ -1,0 +1,3 @@
+StopId,Code,Name,StopType,Zone,Ward,AddressNo,Street,SupportDisability,Status,Lng,Lat,Search,Routes,RouteId,RouteVarId
+10,Q5 060,Chung cư Nguyễn Trãi,Trụ dừng,Quận 5,None,549,Nguyễn Trãi,,Đang khai thác,106.668572,10.754337,CcNT 549 NT,01, 91,1,2,
+10,Q5 060,Chung cư Nguyễn Trãi,Trụ dừng,Quận 5,None,549,Nguyễn Trãi,,Đang khai thác,106.668572,10.754337,CcNT 549 NT,01, 91,131,261,
