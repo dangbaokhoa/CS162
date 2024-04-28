@@ -1,7 +1,7 @@
 import json
 from classes.RouteVar import * 
 from utils.fileProcessor import dataReader
-from utils.promptExtract import promptExtract
+
 INPUT_FILENAME = "vars.json"
 OUTPUT_FILENAME_CSV = "vars.csv"
 OUTPUT_FILENAME_JSON = "vars.json"
@@ -21,14 +21,8 @@ def getListRoute():
 
 if __name__ == "__main__": 
     route = getListRoute()
-    prompt = input("Enter the prompt: ")
-    result = promptExtract(prompt, routeKeys)
-    if result is not None:
-        field, value, function = result
-        chosenFunction = eval(f"route.{function}")
-        res = chosenFunction(field, value)
-        route.outputAsCSV(OUTPUT_FILENAME_CSV, res)
-        route.outputAsJSON(OUTPUT_FILENAME_JSON, res)
-    else :
-        print("No result found, please try again.")
+    # Search by RouteId
+    res = route.searchByRouteId("RouteId", "3")
+    route.outputAsCSV(OUTPUT_FILENAME_CSV, res)
+    route.outputAsJSON(OUTPUT_FILENAME_JSON, res)
     
